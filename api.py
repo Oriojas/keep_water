@@ -18,7 +18,7 @@ USERNAME = SECRET_FILE["USERNAME"]
 PASSWORD = SECRET_FILE["PASSWORD"]
 DRIVER = SECRET_FILE["DRIVER"]
 
-def send_tk(wallet1, wallet2, send):
+def send_tk(fwallet1, fwallet2, send):
 
     web3 = Web3(Web3.HTTPProvider(INFURA_URL))
     #web3.middleware_onion.inject(geth_poa_middleware, layer=0)
@@ -55,7 +55,7 @@ async def connect(test_address: str):
 @app.get("/send_tokens/")
 async def send_tokens(wallet1: str, wallet2: str, send: int):
 
-    d = send_tk(wallet1=wallet1, wallet2=wallet2, send=send)
+    d = send_tk(fwallet1=wallet1, fwallet2=wallet2, send=send)
 
     return json.dumps(d)
 
@@ -76,7 +76,7 @@ async def get_data_esp(humidity: float, temp: float, source: str, wallet1: str, 
 
     if humidity >= 80:
 
-        d = send_tk(wallet1=wallet1, wallet2=wallet2, send=send)
+        d = send_tk(fwallet1=wallet1, fwallet2=wallet2, send=send)
 
         result = {'humidity': humidity,
                 'temp': temp,
