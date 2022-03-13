@@ -22,11 +22,11 @@ def send_tk(fwallet1, fwallet2, send):
 
     web3 = Web3(Web3.HTTPProvider(INFURA_URL))
     #web3.middleware_onion.inject(geth_poa_middleware, layer=0)
-    nonce = web3.eth.getTransactionCount(wallet1)
+    nonce = web3.eth.getTransactionCount(fwallet1)
 
     tx = {
     'nonce': nonce,
-    'to': wallet2,
+    'to': fwallet2,
     'value': web3.toWei(send, 'ether'),
     'gas': 2000000,
     'gasPrice': web3.toWei('50', 'gwei')
@@ -35,7 +35,7 @@ def send_tk(fwallet1, fwallet2, send):
     signed_tx = web3.eth.account.signTransaction(tx, SECRET_KEY)
     tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
 
-    balance = web3.eth.getBalance(wallet1)
+    balance = web3.eth.getBalance(fwallet1)
 
     d = {"balance": balance}
 
