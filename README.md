@@ -12,7 +12,9 @@ Fork the system
 * FastAPI: creación de end points
 
 ## Infraestructura
-La aplicación esta desplegada en una instancia EC2 de aws de un nucleo y 500M de memoria ram con sistema operativo Ubuntu, utilizando la capa gratuita de aws, la base de datos esta alojada en una instancia RDS de mysql de AWS
+La aplicación esta desplegada en una instancia EC2 de aws de un nucleo y 500M de memoria ram con sistema operativo Ubuntu, utilizando la capa gratuita de aws, la base de datos esta alojada en una instancia RDS de mysql de AWS.
+
+Para interactuar con ETH se utilizo infura <https://infura.io>
 
 ## Dashboard
 Se puede ingresar a la url <http://ec2-18-209-67-144.compute-1.amazonaws.com:8080/dashboard/> para ver en tiempo real las lcturas de los dos sensores intalados
