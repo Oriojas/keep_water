@@ -1,41 +1,26 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Sun Mar  6 11:50:24 2022
+Created on Sun Mar  6 10:23:55 2022
 
 @author: oscar
 """
-#%% init
+
 from web3 import Web3
+from web3.middleware import geth_poa_middleware
 
-ganache_url = 'http://127.0.0.1:7545'
+infura_url = 'https://rinkeby.infura.io/v3/3f2545d53b7e4daeb7889f92e1ef4a27'
 
-web3 = Web3(Web3.HTTPProvider(ganache_url))
-print(f'Connnected ganache: {web3.isConnected()}')
-print(f'Block connected: {web3.eth.blockNumber}')
+web3 = Web3(Web3.HTTPProvider(infura_url))
+web3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
-account_1 ='0xFEC3c1CdF3a743AF4FF914174d496edf9c9A24e4'
-account_2 = '0x10D0AfC1Fb244e80CD1EdE2f6927fbfd0B386165'
+test_address = '0x5027323B073841Dfb6481F2a2AFf38c1f393B9fb'
+print(f'Connected rinkeby: {web3.isConnected()}')
 
-private_key = '4bbc63b9faf174704494c5a1234eb86d0b757900d06abddb311167d9d4007956'
+balance = web3.eth.getBalance(test_address)
+print(f"Balance: {web3.fromWei(balance, 'ether')}")
 
-#%% get the nonce
-nonce = web3.eth.getTransactionCount(account_1)
+lates_block = web3.eth.get_block('latest')
+print('Lates block :')
+print(lates_block)
 
-#%% build transaction
-tx = {
-      'nonce': nonce,
-      'to': account_2,
-      'value': web3.toWei(1, 'ether'),
-      'gas': 2000000,
-      'gasPrice': web3.toWei('50', 'gwei')
-      }
-
-#%% sign transaction
-signed_tx = web3.eth.account.signTransaction(tx, private_key)
-
-#%% send transaction
-tx_hash = web3.eth.sendRawTransaction(signed_tx.rawTransaction)
-
-#%% get transaction hash
-print(f'Transsaction hash: {web3.toHex(tx_hash)}')
