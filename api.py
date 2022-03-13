@@ -37,9 +37,8 @@ def send_tk(fwallet1, fwallet2, send):
 
     balance = web3.eth.getBalance(fwallet1)
 
-    d = {"balance": balance}
 
-    return d
+    return balance
 
 templates = Jinja2Templates(directory="templates")
 
@@ -57,7 +56,9 @@ async def send_tokens(wallet1: str, wallet2: str, send: int):
 
     d = send_tk(fwallet1=wallet1, fwallet2=wallet2, send=send)
 
-    return json.dumps(d)
+    p = {'balance' : d}
+
+    return json.dumps(p)
 
 @app.get('/get_data_esp/')
 async def get_data_esp(humidity: float, temp: float, source: str, wallet1: str, wallet2: str, send: int):
@@ -75,6 +76,10 @@ async def get_data_esp(humidity: float, temp: float, source: str, wallet1: str, 
     print(''.center(60, '='))
 
     if humidity >= 80:
+
+        print(''.center(60, '='))
+        print('TARGET!!!! OK!!!!')
+        print(''.center(60, '='))
 
         d = send_tk(fwallet1=wallet1, fwallet2=wallet2, send=send)
 
