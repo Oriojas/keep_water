@@ -9,8 +9,8 @@ from web3.middleware import geth_poa_middleware
 import json
 
 app = FastAPI()
-INFURA_URL = 'https://rinkeby.infura.io/v3/3f2545d53b7e4daeb7889f92e1ef4a27'
 SECRET_FILE = json.load(open("config.json", "r"))
+INFURA_URL = SECRET_FILE["INFURA_URL"]
 SECRET_KEY = SECRET_FILE["SECRET_KEY"]
 SERVER = SECRET_FILE["SERVER"]
 DATABASE = SECRET_FILE["DATABASE"]
