@@ -18,7 +18,7 @@ USERNAME = SECRET_FILE["USERNAME"]
 PASSWORD = SECRET_FILE["PASSWORD"]
 DRIVER = SECRET_FILE["DRIVER"]
 
-def send_tk(fwallet1, fwallet2, send):
+def send_tk(fwallet1, fwallet2, send, temp):
 
     web3 = Web3(Web3.HTTPProvider(INFURA_URL))
     #web3.middleware_onion.inject(geth_poa_middleware, layer=0)
@@ -29,7 +29,8 @@ def send_tk(fwallet1, fwallet2, send):
     'to': fwallet2,
     'value': web3.toWei(send, 'ether'),
     'gas': 2000000,
-    'gasPrice': web3.toWei('50', 'gwei')
+    'gasPrice': web3.toWei('50', 'gwei'),
+    'data': temp
     }
 
     signed_tx = web3.eth.account.signTransaction(tx, SECRET_KEY)
@@ -54,7 +55,7 @@ async def connect(test_address: str):
 @app.get("/send_tokens/")
 async def send_tokens(wallet1: str, wallet2: str, send: int):
 
-    d = send_tk(fwallet1=wallet1, fwallet2=wallet2, send=send)
+    d = send_tk(fwallet1=wallet1, fwallet2=wallet2, send=send, temp=None)
 
     p = {'balance' : d}
 
@@ -81,7 +82,7 @@ async def get_data_esp(humidity: float, temp: float, source: str, wallet1: str, 
         print('TARGET!!!! OK!!!!')
         print(''.center(60, '='))
 
-        d = send_tk(fwallet1=wallet1, fwallet2=wallet2, send=send)
+        d = send_tk(fwallet1=wallet1, fwallet2=wallet2, send=send, temp=str(temp))
 
         result = {'humidity': humidity,
                 'temp': temp,
